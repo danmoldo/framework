@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Framework | Home</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet"  th:href="@{/resources/css/custom.css}" />
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"  th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet"  th:href="@{/resources/css/core.css}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    </head>
+<body>
+
+<div th:replace="fragments/header :: header">Header</div>
+<div class="container">
+    Hello to Framework v0.1
+</div>
+
+<div th:replace="fragments/footer :: footer">&copy; 2015 LearnJava.Today</div>
+</body>
+
+</html>

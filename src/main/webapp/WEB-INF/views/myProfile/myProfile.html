@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Framework | My profile</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"  th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet"  th:href="@{/resources/css/core.css}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <link href="../../../resources/css/jquery.tagit.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/jquery.tagit.css}"/>
+    <link href="../../../resources/css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css" th:href="@{/resources/css/tagit.ui-zendesk.css}"/>
+    <script src="../../../resources/js/tag-it.js" th:src="@{/resources/js/tag-it.js}"></script>
+    <script src="../../../resources/js/country-select.js" th:src="@{/resources/js/country-select.js}"></script>
+
+
+    <script>
+        $(function(){
+            var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+
+
+            $('#allowSpacesTags').tagit({
+                availableTags: sampleTags,
+                removeConfirmation: true,
+                itemName: 'item',
+                fieldName: 'tags',
+                singleField: true,
+                singleFieldNode: $('#interestsField'),
+                placeholderText: 'add more ...'
+            });
+
+
+        });
+    </script>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div class="container">
+    <!-- /* Handle the flash message */-->
+    <th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */-->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}})">&nbsp;</div>
+    </th:block>
+    <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+            <p class="lead">
+
+                <form class="form-narrow form-horizontal" enctype="multipart/form-data" method="post" th:action="@{/profileUpdate}" th:object="${myProfileForm}">
+                    <!-- /* Show general error message when form contains errors */ -->
+                    <th:block th:if="${#fields.hasErrors('${myProfileForm.*}')}">
+                        <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>
+                    </th:block>
+                    <fieldset>
+                        <img class="img-responsive" style="display: block; margin-left: auto; margin-right: auto" th:src="${{profilePhotoLink}}"/>
+                        <br></br>
+                        <br></br>
+                        <legend>Please complete your profile</legend>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error'">
+                            <label for="firstName" class="col-xs-3 control-label">First name</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="firstName" placeholder="First name" th:field="*{firstName}" />
+                                <span class="help-block" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</span>
+                            </div>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error'">
+                            <label for="lastName" class="col-xs-3 control-label">Last name</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="lastName" placeholder="Last name" th:field="*{lastName}" />
+                                <span class="help-block" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</span>
+                            </div>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+                            <label for="email" class="col-xs-3 control-label">Email</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="email" placeholder="Email address" th:field="*{email}" disabled="true"/>
+                                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+                            </div>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('birthday')}? 'has-error'">
+                            <label class="col-xs-3 control-label">Date of birth</label>
+                            <div class="col-xs-9">
+                                <div class="datefield">
+                                    <input id="day" type="tel" maxlength="2" placeholder="DD" th:field="*{birthd}"/> /
+                                    <input id="month" type="tel" maxlength="2" placeholder="MM" th:field="*{birthm}"/> /
+                                    <input id="year" type="tel" maxlength="4" placeholder="YYYY" th:field="*{birthy}"/>
+                                </div>
+                            </div>
+                            <span class="help-block" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}">Incorrect birthday</span>
+                        </div>
+                        <div class="form-group" th:classappend="${#fields.hasErrors('photo')}? 'has-error'">
+                            <label for="photo" class="col-xs-3 control-label">Upload a photo of yourself</label>
+                            <div class="col-xs-9">
+                                <input type="file" class="form-control" id="photo" name="photo" placeholder="photo" th:field="*{photo}"/>
+                                <span class="help-block" th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}">Incorrect photo format</span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-xs-offset-3 col-xs-9">
+                                <div id="pleaseWait" style="display: none">Please wait...</div>
+                                <button id="saveButton" type="submit" class="btn btn-primary btn-md" onclick="getElementById('saveButton').style.display = 'block'; this.style.display = 'none'; getElementById('profileChangePassword').style.display = 'block'; getElementById('profileChangePassword').style.display = 'none'; getElementById('pleaseWait').style.display = 'inline';">Save</button>
+                                <a id="profileChangePassword" href="/profileChangePassword" th:href="@{'/profileChangePassword'}" class="btn btn-primary btn-md" >Change Password</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </p>
+        </div>
+
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; 2015 LearnJava.Today</div>
+</div>
+
+
+</body>
+
+</html>
+
+<style>
+    .datefield {
+        display: inline;
+        padding: 0.3em;
+        border: inset 1px #CCC;
+        background: #FFF;
+        border-radius: 4px;
+        color: #666;
+    }
+
+    .datefield * {
+        display: inline-block;
+    }
+
+    .datefield input {
+        width: 2.5em;
+        padding: 0 0.4em;
+        border: none;
+        font-size: 100%;
+        background: none;
+        color: #000;
+    }
+
+    .datefield input#year { width:3.25em; }
+    .datefield input:focus { outline:none; }
+
+</style>
